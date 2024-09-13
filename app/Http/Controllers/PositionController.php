@@ -52,7 +52,7 @@ public function index(){
         }   
                 
         // Proceed with creating new position 
-        
+
         $positionInsert = Position::create([
             'position_name' => $request->position_name , 
             'reports_to_id'=> $request->reports_to_id
@@ -65,5 +65,42 @@ public function index(){
             return response()->json($data, 201);
          }
        
+    } 
+     
+
+    public function show(Position $position){
+            $positionDetails = DB::table('positions as p1')
+                                ->leftjoin('positions as p2' , 'p1.reports_to_id' , '=' , 'p2.id' )
+                                ->select('p1.position_name as position_name' , 
+                                  DB::raw('COALESCE(p2.position_name, "") as reports_to'))
+                                ->where('p1.id' , '=' , $position->id)
+                                ->get(); 
+
+            $data['positions_details'] = $positionDetails ; 
+            $data['status'] = 201;  
+             return response()->json($data, 201);                         
+    } 
+
+
+    public function destroy(Position $position) {
+            if($position->id){ 
+
+                $deletePositions = DB::table('positions')->where('id' , '=' , $position->id)->delete();  
+                $data['message'] = "Position Deleted Successfuly. "; 
+                $data['status'] = 200;   
+
+                return response()->json($data,200); 
+
+            }else {  
+
+                $data['message'] = "Oops , Something went wrong in deleting positions ."; 
+                $data['status'] = 500;   
+                
+                return response()->json($data, 500);
+
+            }
+
+
+
     }
 }
