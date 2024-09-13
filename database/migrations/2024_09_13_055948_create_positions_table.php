@@ -14,9 +14,14 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string('position_name'); 
-            $table->string('reports_to')->nullable(); 
+            $table->foreignId('reports_to_id')      
+            ->nullable()
+            ->constrained(table:'positions')
+            ->onUpdate('cascade')
+            ->onDelete('cascade')
+            ; 
             $table->timestamps(); 
-
+            
             // Index position_name for faster searching . 
             $table->index('position_name'); 
         });
