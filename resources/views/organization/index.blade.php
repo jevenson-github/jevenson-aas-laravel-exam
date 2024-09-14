@@ -11,17 +11,19 @@
             </div>
 
             <form name="filter_form">
-                <div class="row mb-3">
+                <div class="row mb-3"> 
+                    {{-- Search Box  --}}
                     <div class="col">
                         <div class="form-group">
                             <label for="">Search</label>
-                            <input name="q" type="text" class="form-control">
+                            <input name="q" type="text" class="form-control" placeholder="Position Name">
                         </div>
-                    </div>
+                    </div>  
+                    {{-- Search Dropdown  --}}
                     <div class="col">
                         <div class="form-group">
                             <label for="">Sort By</label>
-                            <select name="sort_order" class="form-control">
+                            <select name="sort_order" class="form-select">
                                 <option value="asc" selected>Ascending</option>
                                 <option value="desc">Descending</option>
                             </select>
@@ -224,7 +226,7 @@
             });
    }
  
-//Get Positions
+//Get Positions and Enable Search 
 function getPositions () {  
     
     var q = $('input[name="q"]').val();
@@ -285,7 +287,7 @@ function viewPositionDetails(id){
             $("#viewPositionModal").modal('show'); 
         }
 // Delete
-  function deletePosition(id){
+function deletePosition(id){
             var position_id = id; 
 
             $.ajax({
@@ -301,14 +303,14 @@ function viewPositionDetails(id){
                         timer: 1500 
 
                         }) .then( function(){
-                                 location.reload();
+                            getPositions(); 
                         }); 
                 }
             });
         }    
 
 // Update 
-    function updatePosition(id){
+function updatePosition(id){
 
             var position_id = id; 
             // Show Modal
@@ -348,6 +350,8 @@ function viewPositionDetails(id){
 
                     Swal.fire({ 
 
+                       
+
                         position:"top-end",
                         icon: "success",
                         title: "Position Successfuly Updated",
@@ -355,7 +359,11 @@ function viewPositionDetails(id){
                         timer: 1500 
 
                         }) .then( function(){
-                            // location.reload();
+                        
+                         
+                             $("#editPositionModal").modal('hide');  
+                             location.reload();
+
                         });  
                 }  
                 ,error:function(xhr){   
@@ -366,7 +374,7 @@ function viewPositionDetails(id){
                                     $( ".name-validation-edit" ).removeClass( "d-none" ).text(error.errors.position_name);
                                     $(" #position-name-edit").addClass('border border-danger');  
 
-                                } 
+                                }
                                 
                                 if(error.errors.reports_to_id){
                                     $( ".reports-to-validation-edit" ).removeClass( "d-none" ).text(error.errors.reports_to_id);
@@ -465,8 +473,7 @@ $(".submit-position").click(function() {
                 contentType: "application/json",
                 success: function (response) {
                 
-                    // Hide modal after success 
-                     $('#addPositionModal').modal('hide'); 
+                 
                        
                     Swal.fire({ 
 
@@ -477,7 +484,9 @@ $(".submit-position").click(function() {
                     timer: 1500 
 
                      }) .then( function(){
+
                         $('#position_name').val(''); 
+                        $("#addPositionModal").modal('hide');  
                         location.reload();
                      }); 
                     } 
@@ -486,8 +495,11 @@ $(".submit-position").click(function() {
                             let error = JSON.parse(xhr.responseText);  
 
                                 if(error.errors.position_name){
-                                    $( ".name-validation" ).removeClass( "d-none" ).text(error.errors.position_name);
+                                     $( ".name-validation" ).removeClass( "d-none" ).text(error.errors.position_name);
                                      $(" #position_name").addClass('border border-danger'); 
+                                }else{
+                                    $( ".name-validation" ).addClass( "d-none" );
+                                    $(" #position_name").removeClass('border border-danger'); 
                                 }
 
 

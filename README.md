@@ -62,12 +62,29 @@ After you clone this project there are some files that need to run your Laravel 
    * This will allow you to view and start your own modification in project.
 
 
+## Test Laravel API with Artisan 
+
+*  Create separate testing file 
+  * *copy and paste your .env file and rename the file to .env.testing*
+*  Create separate database for testing 
+  * rename your database in .env.testing.    
+    DB_CONNECTION=mysql  
+    DB_HOST=127.0.0.1  
+    DB_PORT=3306  
+    DB_DATABASE=laravel_testing  
+    DB_USERNAME=root  
+    DB_PASSWORD=  
+* Migrate the testing database 
+  * *php artisan migrate*
+* Run test
+  * *php artisan test*
+
 
 ## Test Laravel API with Postman   
 
   To test your Laravel API with Postman, create a new request, set the method (GET, POST, etc.).  
   Enter the URL (e.g., http://127.0.0.1:8000/api/position), add any necessary headers , body data or raw JSON , and click Send to view the response.    
-
+  
 
 ## Test Laravel API using the web template ( Optional )
   
