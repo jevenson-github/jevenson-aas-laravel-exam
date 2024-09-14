@@ -18,11 +18,17 @@ class PositionController extends Controller
 {
     
      
-public function index(){ 
-
+public function index (Request $request) { 
+    $q = $request->get('q');
+    $sort_order = $request->get('sort_order') ?? 'ASC';
 
     // Load Positions with reports_to relationship
-    $positionsList = Position::with(['reports_to'])->orderBy('id','desc')->get(); 
+    $positionsList = Position::with(['reports_to'])
+        ->when(($q), function ($query) use ($q) {
+            $query->where('position_name', 'LIKE', "%$q%");
+        })
+        ->orderBy('position_name', $sort_order)
+        ->get(); 
 
     return PositionResource::collection($positionsList) ;   
     

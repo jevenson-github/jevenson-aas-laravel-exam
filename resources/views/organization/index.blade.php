@@ -9,6 +9,30 @@
                     <button type="button" class="btn btn-primary btn-addPosition" data-bs-toggle="modal" data-bs-target="#addPositionModal">Add Position</button>
                </div> 
             </div>
+
+            <form name="filter_form">
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="">Search</label>
+                            <input name="q" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="">Sort By</label>
+                            <select name="sort_order" class="form-control">
+                                <option value="asc" selected>Ascending</option>
+                                <option value="desc">Descending</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Apply</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </form>
             
             {{-- Div rendering position's list --}}
             <div id="position-list">
@@ -176,7 +200,7 @@
 
 
 @section('script') 
-   <script>  
+   <script>   
  // Set Dropdown Values on Edit 
  function setDropDownListOnEdit(){
     $.ajax({
@@ -201,34 +225,50 @@
    }
  
 //Get Positions
-function getPositions () {   
+function getPositions () {  
+    
+    var q = $('input[name="q"]').val();
+    var sort_order = $('select[name="sort_order"]').val();
+         
+    var $table = $('#position-list');
+    
+    $.ajax({
+        type: "GET",
+        url: "/api/position",
+        dataType: 'json',
+        data: {
+            q: q,
+            sort_order: sort_order
+        },
+        beforeSend: function () {
+            $table.find('tbody').html('')
+        },
+        success: function (response) {
 
-            $.ajax({
-                type: "GET",
-                url: "/api/position", 
-                success: function (response) {
+            var position_list = response.data
+            var $tablemain = $("#myTable"); 
+            // loop 
+            $.each(position_list, function (index, value) { 
+                var $row = `<tr>
+                    <td>${value.position_name}</td>    
+                    <td>${value.reports_to}</td>    
+                    <td class="text-center"> 
+                        <button type="button" data-id="${value.id}" class="btn btn-view btn-info">View</button>
+                        <button type="button" data-id="${value.id}" class="btn btn-edit btn-primary">Edit</button>
+                        <button type="button" data-id="${value.id}" class="btn btn-delete btn-danger">Delete</button>
+                    </td>    
+                </tr>`
 
-                    var position_list = response.data
-                    var $table = $('#position-list');
-                   
-                    // loop 
-                    $.each(position_list, function (index, value) { 
-                        var $row = `<tr>
-                            <td>${value.position_name}</td>    
-                            <td>${value.reports_to}</td>    
-                            <td class="text-center"> 
-                                <button type="button" data-id="${value.id}" class="btn btn-view btn-info">View</button>
-                                <button type="button" data-id="${value.id}" class="btn btn-edit btn-primary">Edit</button>
-                                <button type="button" data-id="${value.id}" class="btn btn-delete btn-danger">Delete</button>
-                            </td>    
-                        </tr>`
+                $table.find('tbody').append($row);   
 
-                        $table.find('tbody').append($row);   
-
-                    });
-                }   
             }); 
+        },
+        complete: function () {
+
         }
+    });  
+
+}
 // View Details 
 function viewPositionDetails(id){
             var position_id = id; 
@@ -368,6 +408,11 @@ $(document).ready(function () {
                 var position_id = $this.data('id')
                 deletePosition(position_id)
             }) 
+
+            $('form[name="filter_form"]').on('submit', function (e) {
+                e.preventDefault();
+                getPositions();
+            })
 
             // Set values on Dropdown Edit
             setDropDownListOnEdit(); 
