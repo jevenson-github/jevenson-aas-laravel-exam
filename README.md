@@ -1,7 +1,7 @@
 
 
 <!-- ABOUT THE TEST -->
-## Goal
+### Goal
 
 Develop an API or service to manage and visualize an organizational chart. The endpoints
 should be able to handle position names and define connections between positions.
@@ -17,7 +17,7 @@ should be able to handle position names and define connections between positions
 
 
 <!-- PROJECT SETUP AND INSTRUCTION   --> 
-## Project Setup
+### Project Setup
 
 ## Cloning the Project 
 
