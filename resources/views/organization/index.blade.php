@@ -355,7 +355,7 @@ function viewPositionDetails(id){
                         timer: 1500 
 
                         }) .then( function(){
-                            location.reload();
+                            // location.reload();
                         });  
                 }  
                 ,error:function(xhr){   

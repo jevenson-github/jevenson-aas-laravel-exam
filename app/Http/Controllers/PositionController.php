@@ -75,7 +75,7 @@ public function index (Request $request) {
 
         if($position){ 
 
-            $data['messasge'] = "Position Successfuly Updated"; 
+            $data['message'] = "Position Successfuly Updated"; 
         return response()->json($data,200) ;  
 
         }else {

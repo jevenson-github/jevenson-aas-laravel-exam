@@ -27,7 +27,7 @@ class UpdatePositionRequest extends FormRequest
     {   
 
         return [ 
-               'position_name' => [ 'required', 'string' , 'max:255', 'unique:positions'], 
+               'position_name' => [ 'required', 'string' , 'max:255', Rule::unique('positions')->ignore($this->position->id)->whereNull('deleted_at')], 
                'reports_to_id' => [new ValidReportsTo($this->position->id)]  
         ];
     } 
@@ -48,8 +48,6 @@ class UpdatePositionRequest extends FormRequest
                 'string' => 'The :attribute must be a string.',
                 'unique' => 'The :attribute already exists.'
             ], 
-
-            'p'
         ];
     }
 }
