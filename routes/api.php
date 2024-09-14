@@ -21,8 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 }); 
 
 
-Route::get('/position',  [ PositionController::class, 'index'] )->name('position.index'); 
-Route::get('/position/{position}',  [ PositionController::class, 'show'] )->name('position.show'); 
-Route::post('/position', [ PositionController::class, 'store'] )->name('position.store'); 
-Route::put('/position/{position}' , [PositionController::class , 'update'])->name('position.update'); 
-Route::delete('/position/{position}' , [PositionController::class, 'destroy'])->name('positon.delete'); 
+
+Route::controller(PositionController::class)->group( function (){
+
+    Route::get('/position', 'index')->name('position.index'); 
+    Route::get('/position/{position}', 'show')->name('position.show'); 
+    Route::post('/position', 'store' )->name('position.store'); 
+    Route::put('/position/{position}' , 'update')->name('position.update'); 
+    Route::delete('/position/{position}' ,  'destroy')->name('positon.destroy'); 
+
+});

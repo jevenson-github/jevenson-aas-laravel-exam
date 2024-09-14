@@ -9,6 +9,12 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class ValidReportsTo implements ValidationRule
 {
+    private $id;
+
+    public function __construct ($id = null) {
+        $this->id = $id;
+    }
+
     /**
      * Run the validation rule.
      *
@@ -21,10 +27,18 @@ class ValidReportsTo implements ValidationRule
     {
         $reportsToEmptyCount = Position::whereNull('reports_to_id')->count(); 
          
-        if($reportsToEmptyCount > 0 ) { 
-            $exist = DB::table('positions')->where('id', $value)->exists(); 
-            if(!$exist ){
-                  $fail('Invalid Position To Report'); 
+
+        // Will not update for same name position and reports_to 
+        if ($this->id == $value && $this->id != NULL) {
+            $fail('Reports to must not be the same as the position.');
+        }
+       
+        // Check for first null value 
+        if($reportsToEmptyCount > 0) { 
+            $exist = DB::table('positions')->where('id', $value)->exists();
+
+            if(!$exist){
+                $fail('Invalid Position To Report'); 
             }
         }
     }

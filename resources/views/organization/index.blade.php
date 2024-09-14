@@ -10,14 +10,14 @@
                </div> 
             </div>
             
-            {{-- Div rendering position list --}}
+            {{-- Div rendering position's list --}}
             <div id="position-list">
                 <table class="table table-bordered" id="myTable">
                     <thead>
                         <tr>
-                        <th scope="col">Position</th>
-                        <th scope="col">Reports To</th>  
-                        <th scope="col">Action </th>
+                        <th scope="col" class="text-center">Position</th>
+                        <th scope="col" class="text-center">Reports To</th>  
+                        <th scope="col" class="text-center">Action </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,7 +45,7 @@
     
                         <div class="mb-3">
                           <label for="position_name" class="form-label ">Position Name</label>
-                          <input type="text" class="form-control" id="position-name-edit" placeholder="name">
+                          <input type="text" class="form-control" id="position-name-edit" placeholder="name" autocomplete="off">
           
                           <div class="text-danger d-none name-validation-edit">
                               Please select a valid state.
@@ -80,7 +80,7 @@
       </div>
 
 {{-- MODAL FOR ADD POSITIONS --}}
-<div class="modal fade" id="addPositionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="addPositionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered modal-md">
       <div class="modal-content">
@@ -97,7 +97,7 @@
 
                     <div class="mb-3">
                       <label for="position_name" class="form-label ">Position Name</label>
-                      <input type="text" class="form-control" id="position_name" placeholder="name">
+                      <input type="text" class="form-control" id="position_name" placeholder="name" autocomplete="off">
       
                       <div class="text-danger d-none name-validation">
                           Please select a valid state.
@@ -132,7 +132,7 @@
   </div>
 
  {{-- MODAL FOR VIEW DETAILS  --}}
-<div class="modal fade" id="viewPositionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="viewPositionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
@@ -173,17 +173,17 @@
 
 
 
+
+
 @section('script') 
-
    <script>  
-
-   function setDropDownListOnEdit(){
+ // Set Dropdown Values on Edit 
+ function setDropDownListOnEdit(){
     $.ajax({
                 type: "GET",
                 url: "/api/position",
                 success: function (response) {
                     var report_to_list = response.data; 
-                    console.log(report_to_list); 
                     var $dropdown = $('#reports-to-list-edit');
 
                     $dropdown.empty(); 
@@ -200,16 +200,15 @@
             });
    }
  
-   
+//Get Positions
 function getPositions () {   
 
             $.ajax({
                 type: "GET",
                 url: "/api/position", 
                 success: function (response) {
-                    console.log(response.data);  
+
                     var position_list = response.data
-                    
                     var $table = $('#position-list');
                    
                     // loop 
@@ -217,47 +216,21 @@ function getPositions () {
                         var $row = `<tr>
                             <td>${value.position_name}</td>    
                             <td>${value.reports_to}</td>    
-                            <td>
+                            <td class="text-center"> 
                                 <button type="button" data-id="${value.id}" class="btn btn-view btn-info">View</button>
                                 <button type="button" data-id="${value.id}" class="btn btn-edit btn-primary">Edit</button>
                                 <button type="button" data-id="${value.id}" class="btn btn-delete btn-danger">Delete</button>
                             </td>    
                         </tr>`
 
-
                         $table.find('tbody').append($row);   
 
                     });
-
-                    // var html =''; 
-                    // html += '<table class="table table-bordered" >';
-                    // html += '<thead>';
-                    // html += '<tr>';
-                    // html += '<th scope="col">Position</th>'; 
-                    // html += '<th scope="col">Reports To</th> '; 
-                    // html += '<th scope="col">Action </th>' ;
-                    // html += '</tr>'; 
-                    // html += '</thead>'; 
-                    // html += '</tbody>';  
-
-                    // // loop
-                    // for(var i = 0 ; i < position_list.length; i++ ){
-                    //     html += '<tr>';
-                    // html += '<td>' + position_list[i].position_name + '</td>';
-                    // html += '<td>' + position_list[i].reports_to + '</td>';
-                    // html += '<td> <button type="button" data-bs-toggle="modal" data-bs-target="#viewPositionModal" class="btn btn-outline-info" id=" '+ position_list[i].position_id +'" onclick="viewPositionDetails('+ position_list[i].position_id+')">View</button> </td>' ;
-                    // html += '</tr>';    
-                    // }
-
-                    // html += '</tbody>';
-                    // html += '</table>'; 
-
-                    // $("#position-list").html(html); 
-
                 }   
             }); 
         }
-        function viewPositionDetails(id){
+// View Details 
+function viewPositionDetails(id){
             var position_id = id; 
 
             $.ajax({
@@ -271,8 +244,8 @@ function getPositions () {
             // Show Modal
             $("#viewPositionModal").modal('show'); 
         }
-
-        function deletePosition(id){
+// Delete
+  function deletePosition(id){
             var position_id = id; 
 
             $.ajax({
@@ -294,7 +267,8 @@ function getPositions () {
             });
         }    
 
-        function updatePosition(id){
+// Update 
+    function updatePosition(id){
 
             var position_id = id; 
             // Show Modal
@@ -304,10 +278,10 @@ function getPositions () {
                 type: "GET",
                 url: "/api/position/"+position_id,
                 success: function (response) { 
-                        console.log(response); 
-                        $('#position-name-edit').val(response.data.position_name);  
-                        console.log(response.data.reports_to); 
-                       $('select[name="selectoption"] option[value="'+ response.data.reports_to_id +'"]').attr('selected', 'selected');
+                   
+                        $('#position-name-edit').val(response.data.position_name);   
+                        // set's default value to select option 
+                        $('select[name="selectoption"] option[value="'+ response.data.reports_to_id +'"]').attr('selected', 'selected');
                 }
             });  
 
@@ -332,7 +306,6 @@ function getPositions () {
                 contentType: "application/json", 
                 success: function (response) {
 
-                    console.log(response); 
                     Swal.fire({ 
 
                         position:"top-end",
@@ -345,14 +318,21 @@ function getPositions () {
                             location.reload();
                         });  
                 }  
-                ,error:function(xhr){  
-                            let error = JSON.parse(xhr.responseText);  
-                                console.log(error); 
-                                if(error.error.position_name){
-                                    $( ".name-validation-edit" ).removeClass( "d-none" ).text(error.error.position_name);
+                ,error:function(xhr){   
+
+                            let error = xhr.responseJSON;  
+                             
+                                if(error.errors.position_name ){
+                                    $( ".name-validation-edit" ).removeClass( "d-none" ).text(error.errors.position_name);
                                     $(" #position-name-edit").addClass('border border-danger');  
 
+                                } 
+                                
+                                if(error.errors.reports_to_id){
+                                    $( ".reports-to-validation-edit" ).removeClass( "d-none" ).text(error.errors.reports_to_id);
+                                    $(" #reports-to-list-edit").addClass('border border-danger');
                                 }
+
 
 
                      }  
@@ -361,14 +341,11 @@ function getPositions () {
 
         }
 
+// On load Display 
+$(document).ready(function () {
 
-        $(document).ready(function () {
             // Get All Positions on page load
             getPositions(); 
-
-        
-    
-
 
             // On click of View Button
             $(document).on('click', '.btn-view', function (e) {
@@ -398,15 +375,15 @@ function getPositions () {
         });
    
       
-        // Set dropdown values 
-        $(".btn-addPosition").click(function() { 
+// Set dropdown values 
+$(".btn-addPosition").click(function() { 
             //Populate the dropdown . 
             $.ajax({
                 type: "GET",
                 url: "/api/position",
                 success: function (response) {
+
                     var report_to_list = response.data; 
-                    console.log(report_to_list); 
                     var $dropdown = $('#reports-to-list');
 
                     $dropdown.empty(); 
@@ -424,8 +401,8 @@ function getPositions () {
         }); 
   
 
-        // Submit Position Details 
-        $(".submit-position").click(function() {  
+// Submit Position Details 
+$(".submit-position").click(function() {  
 
             var reports_to_value =  $('#reports-to-list').val(); 
             var position_name_value =  $('#position_name').val(); 
@@ -442,7 +419,7 @@ function getPositions () {
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function (response) {
-                    console.log(response.message); 
+                
                     // Hide modal after success 
                      $('#addPositionModal').modal('hide'); 
                        
@@ -477,9 +454,9 @@ function getPositions () {
         }); 
 
 
-        
 
-   </script> 
+
+</script> 
 
 
 @endsection
