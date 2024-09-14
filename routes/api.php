@@ -24,5 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/position',  [ PositionController::class, 'index'] )->name('position.index'); 
 Route::get('/position/{position}',  [ PositionController::class, 'show'] )->name('position.show'); 
 Route::post('/position', [ PositionController::class, 'store'] )->name('position.store'); 
-
+Route::put('/position/{position}' , [PositionController::class , 'update'])->name('position.update'); 
 Route::delete('/position/{position}' , [PositionController::class, 'destroy'])->name('positon.delete'); 

@@ -14,7 +14,9 @@ class ValidReportsTo implements ValidationRule
      *
      * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
+    
 
+      // Create specific rule for storing positions or custom rule 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $reportsToEmptyCount = Position::whereNull('reports_to_id')->count(); 
@@ -25,5 +27,11 @@ class ValidReportsTo implements ValidationRule
                   $fail('Invalid Position To Report'); 
             }
         }
+    }
+  
+    // Error message 
+    public function message()
+    {
+        return 'The validation error message.';
     }
 }
