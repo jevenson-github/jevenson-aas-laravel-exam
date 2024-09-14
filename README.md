@@ -34,7 +34,9 @@ After you clone this project there are some files that need to run your Laravel 
     * Duplicate or copy the ( .env.example ) file.
 * Rename the Copy : 
     * Rename the duplicated file to (.env ) . 
-
+* Database name : 
+    * For Database Name , Find the following line of code in the ( .env ) and place your database name
+    * DB_DATABASE= <database_name_here>
 ## 3. Generate Application Key 
 
 * Run the following command : 
