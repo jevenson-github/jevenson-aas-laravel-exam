@@ -19,39 +19,39 @@ should be able to handle position names and define connections between positions
 <!-- PROJECT SETUP AND INSTRUCTION   --> 
 ## Project Setup
 
-### Cloning the Project 
+## Cloning the Project 
 
 After you clone this project there are some files that need to run your Laravel Application . 
 
-### 1. Install Composer Dependencies
+## 1. Install Composer Dependencies
 
 * Run the following command : 
     * *composer install* 
 
-### 2. Setup the Environment ( .env )
+## 2. Setup the Environment ( .env )
 
 * Duplicate the file :
     * Duplicate or copy the ( .env.example ) file.
 * Rename the Copy : 
     * Rename the duplicated file to (.env ) . 
 
-### 3. Generate Application Key 
+## 3. Generate Application Key 
 
 * Run the following command : 
   *  *php artisan key: generate*
 
-### 4. Install Node.js Dependencies if you are using JavaScript libraries or CSS ( Optional )
+## 4. Install Node.js Dependencies if you are using JavaScript libraries or CSS ( Optional )
 
 * Run the following command:
   * *npm install*
 * Once the npm is installed , run the following command to compile JavaScript and CSS assets
   * *npm run dev*
 
-### 5. Migrate Database
+## 5. Migrate Database
 * Run the following command:
   * *php artisan migrate*
 
-### 6. Launch the project
+## 6. Launch the project
 
 * Run the following command
   * *php artisan serve*
@@ -62,7 +62,7 @@ After you clone this project there are some files that need to run your Laravel 
    * This will allow you to view and start your own modification in project.
 
 
-### Test Laravel API with Artisan 
+## Test Laravel API with Artisan 
 
 *  Create separate testing file 
   * *copy and paste your .env file and rename the file to .env.testing*
@@ -80,13 +80,13 @@ After you clone this project there are some files that need to run your Laravel 
   * *php artisan test*
 
 
-### Test Laravel API with Postman   
+## Test Laravel API with Postman   
 
   To test your Laravel API with Postman, create a new request, set the method (GET, POST, etc.).  
   Enter the URL (e.g., http://127.0.0.1:8000/api/position), add any necessary headers , body data or raw JSON , and click Send to view the response.    
   
 
-### Test Laravel API using the web template ( Optional )
+## Test Laravel API using the web template ( Optional )
   
  You can also test the web application on the client side by visiting http://127.0.0.1:8000.  
  This will allow you to interact with the API functionalities through an interactive user interface. 
